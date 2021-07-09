@@ -56,3 +56,14 @@ export function tick(date: Date | string, by: number = 1): Date {
 export function midnight(date: Date | string): Date {
   return tick(date, 0);
 }
+
+/**
+ * Convert a date object or existing date string to a normalized string.
+ * @param date The date object or date-formatted string to convert.
+ * @returns string
+ */
+export function stringifyDate(date: Date | string): string {
+  return DATE_FORMAT.map((format) =>
+    new Intl.DateTimeFormat('en', <any>format).format(midnight(date))
+  ).join(DATE_SEPERATOR);
+}
