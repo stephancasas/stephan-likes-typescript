@@ -41,12 +41,21 @@ export function daysBetween(floor: Date | string, ceiling: Date | string) {
 /**
  * Advance a given date or string by one calendar day.
  * @param date The date object or date-formatted string to advance.
+ * @param by The number of days by which to advance the given date.
  * @returns Date
  */
-export function tick(date: Date | string, by: number = 1): Date {
+export const tick = (date: string | Date, by = 1): Date => {
   if (typeof date === 'string') date = new Date(date);
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + by);
-}
+  // force common timezone/offset -- changes based on given date format
+  date = new Date(
+    date.toISOString().replace(/T\d\d/, 'T00').replace(/\..*/, '.000Z')
+  );
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate() + (by + 1)
+  );
+};
 
 /**
  * Reduce a given date to its midnight position.
